@@ -87,7 +87,7 @@ run(hdate,htime="",logdir,rmstatlogs=1,rmoldpacklogs=1)
  } 
  if $G(optccon,1)=1&&(cmdCopy'="") {
 	set cconlog="cconsole.log" 
-	if $GET(isiris) set cachecpf="messages.log"
+	if $GET(isiris) set cconlog="messages.log"
 	set cmd=cmdCopy_" "_$zu(12)_cconlog_" ."
     try { set dev="|CPIPE|" open dev:(cmd:"Q") close dev } catch {}
     #;if ##class(%File).Exists
