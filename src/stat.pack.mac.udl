@@ -75,19 +75,24 @@ run(hdate,htime="",logdir,rmstatlogs=1,rmoldpacklogs=1)
  
  #; cache info
  #; cp cache.cpf
+ if $P($SYSTEM.Version.GetProduct()," ")="IRIS" { set isiris=1 } else { set isiris=0 }
+ 
  if $G(optcachecpf,1)=1&&(cmdCopy'="") {
     try {
       set cachecpf="cache.cpf"
+      if $GET(isiris) set cachecpf="iris.cpf"
       set cmd=cmdCopy_" "_$SYSTEM.Util.InstallDirectory()_cachecpf_" ."
       set dev="|CPIPE|" open dev:(cmd:"Q") close dev
     } catch {}
  } 
  if $G(optccon,1)=1&&(cmdCopy'="") {
-    set cconlog="cconsole.log" set cmd=cmdCopy_" "_$zu(12)_cconlog_" ."
+	set cconlog="cconsole.log" 
+	if $GET(isiris) set cachecpf="messages.log"
+	set cmd=cmdCopy_" "_$zu(12)_cconlog_" ."
     try { set dev="|CPIPE|" open dev:(cmd:"Q") close dev } catch {}
     #;if ##class(%File).Exists
  }
-
+ 
  #; mount
  if $G(optmountlog,1)=1&&(platform="linux") {
    set optmountlog=1
